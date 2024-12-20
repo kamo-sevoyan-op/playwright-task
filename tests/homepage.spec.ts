@@ -1,10 +1,11 @@
 import { test, expect } from "@playwright/test";
+import { HomePage } from "./page/homepage";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("https://magento.softwaretestingboard.com");
+  await page.goto("/");
 });
 
-test.describe("User is able to navigate to homepage and view products without authentication.", () => {
+test.describe("User is able to navigate to homepage and view products without authentication", () => {
   const sections = [
     { name: "Women", cls: ".nav-2" },
     { name: "Men", cls: ".nav-3" },
@@ -13,10 +14,9 @@ test.describe("User is able to navigate to homepage and view products without au
 
   sections.forEach(({ name, cls }) => {
     test(`Section: '${name}'`, async ({ page }) => {
-      const button = page.locator(cls).getByText(name);
-      await button.click();
-      const main = page.locator(".column.main");
-      await expect(main).toBeVisible();
+      const homePage = new HomePage(page);
+      await homePage.goto(cls, name);
+      await expect(homePage.content).toBeVisible();
     });
   });
 });
