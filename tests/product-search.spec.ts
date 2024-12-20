@@ -1,40 +1,27 @@
 import { test, expect, Page } from "@playwright/test";
+import { HomePage } from "./page/homepage";
 
-const BASE_URL = "https://magento.softwaretestingboard.com";
+const SEARCH_KEYWORDS = ["t-shirt", "pants", "women"];
 
 test.beforeEach(async ({ page }) => {
-  await page.goto(BASE_URL);
+  await page.goto("/");
 });
 
-const doSearch = async (page: Page, term: string) => {
-  const searchField = page.getByPlaceholder("Search entire store here...");
-  const searchButton = page.getByTitle("Search");
-  await searchField.fill(term);
-  await searchButton.click();
-};
-
 test.describe("Search functionality", () => {
-  const searchKeywords = ["t-shirt", "pants", "women"];
-
-  test.describe("Search results navigation", () => {
-    searchKeywords.forEach((term) => {
-      test(`Should navigate to results page for term: ${term}`, async ({
-        page,
-      }) => {
-        await doSearch(page, term);
-
-        await expect(page).toHaveURL(
-          `${BASE_URL}/catalogsearch/result/?q=${term}`
-        );
-      });
+  SEARCH_KEYWORDS.forEach((term) => {
+    test(`Should navigate to results page for term: ${term}`, async ({
+      page,
+    }) => {
+      const homePage = new HomePage(page);
+      homePage.search(term);
+      await expect(page).toHaveURL(`/catalogsearch/result/?q=${term}`);
     });
   });
 
-  test("Search results page should contain the search term", async ({
-    page,
-  }) => {
+  test("Should contain the search term", async ({ page }) => {
     const searchTerm = "hat";
-    await doSearch(page, searchTerm);
+    const homePage = new HomePage(page);
+    homePage.search(searchTerm);
 
     const pageTitle = page.locator(".base");
     await expect(pageTitle).toHaveText(`Search results for: '${searchTerm}'`);
