@@ -1,4 +1,4 @@
-import { test, expect, Page } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import { HomePage } from "./page/homepage";
 
 const SEARCH_KEYWORDS = ["t-shirt", "pants", "women"];
@@ -19,11 +19,14 @@ test.describe("Search functionality", () => {
   });
 
   test("Should contain the search term", async ({ page }) => {
-    const searchTerm = "hat";
+    const searchTerm = "backpack";
     const homePage = new HomePage(page);
     homePage.search(searchTerm);
 
     const pageTitle = page.locator(".base");
-    await expect(pageTitle).toHaveText(`Search results for: '${searchTerm}'`);
+
+    const text = `Search results for: '${searchTerm}'`;
+    await expect(pageTitle).toHaveText(text);
+    await expect(page).toHaveTitle(text);
   });
 });
