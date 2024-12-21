@@ -14,6 +14,7 @@ test.describe("User is able to navigate to homepage and view products without au
 
   sections.forEach(({ name, cls }) => {
     test(`Section: '${name}'`, async ({ page }) => {
+      await expect(page).toHaveTitle("Home Page");
       const homePage = new HomePage(page);
       await homePage.goto(cls, name);
       await expect(homePage.content).toBeVisible();
