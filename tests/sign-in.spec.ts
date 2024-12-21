@@ -14,9 +14,10 @@ test.beforeEach(async ({ page }) => {
 
 test.describe("User is able to sign in successfully", () => {
   test("From homepage", async ({ page }) => {
+    expect(page).toHaveTitle("Customer Login");
     const signInPage = new SignInPage(page);
     await signInPage.login(email, password);
-    
+
     await expect(signInPage.greetingMessage).toHaveText(
       `Welcome, ${firstName} ${lastName}!`
     );
