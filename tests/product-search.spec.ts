@@ -7,7 +7,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto("/");
 });
 
-test.describe("Search functionality", () => {
+test.describe("Search functionality tests", () => {
   SEARCH_KEYWORDS.forEach((term) => {
     test(`Should navigate to results page for term: ${term}`, async ({
       page,
@@ -18,7 +18,7 @@ test.describe("Search functionality", () => {
     });
   });
 
-  test("Should contain the search term", async ({ page }) => {
+  test("Should show the search term", async ({ page }) => {
     const searchTerm = "backpack";
     const homePage = new HomePage(page);
     homePage.search(searchTerm);
