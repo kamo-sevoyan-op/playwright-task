@@ -46,15 +46,19 @@ async function testProduct(
   await expect(page).toHaveTitle(productName as string);
 }
 
-test.describe("Can navigate to a product page", () => {
+test.describe("Product page tests", () => {
   for (let index = 0; index < 4; index++) {
-    test(`Navigation by product name, case ${index}`, async ({ page }) => {
+    test(`Should allow user to navigate to product page by product name, case ${index}`, async ({
+      page,
+    }) => {
       await testProduct(page, index, "anchor");
     });
   }
 
   for (let index = 0; index < 4; index++) {
-    test(`Navigates by product image, case ${index}`, async ({ page }) => {
+    test(`Should allow user to navigate to product page by product image, case ${index}`, async ({
+      page,
+    }) => {
       await testProduct(page, index, "image");
     });
   }
