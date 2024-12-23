@@ -1,15 +1,15 @@
 import { test, expect, Page } from "@playwright/test";
 import { SignInPage } from "./page/sign-in";
-import addProductToCart from './utils'
+import addProductToCart from "./utils";
 
-const email = "serzhtankian@gmail.us";
-const password = "SystemOfaDown1994";
-const firstName = "Serzh";
-const lastName = "Tankian";
-const streetAddress = "12";
-const city = "Yerevan";
-const zipCode = "1234";
-const phoneNumber = "1234567890";
+const email = process.env.EMAIL ?? "";
+const password = process.env.PASSWORD ?? "";
+const firstName = process.env.FIRST_NAME ?? "";
+const lastName = process.env.LAST_NAME ?? "";
+const streetAddress = process.env.STREET_ADDRESS ?? "";
+const city = process.env.CITY ?? "";
+const zipCode = process.env.ZIP_CODE ?? "";
+const phoneNumber = process.env.PHONE_NUMBER ?? "";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/");

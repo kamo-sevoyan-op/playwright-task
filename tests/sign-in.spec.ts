@@ -1,10 +1,10 @@
 import { test, expect } from "@playwright/test";
 import { SignInPage } from "./page/sign-in";
 
-const email = "serzhtankian@gmail.us";
-const password = "SystemOfaDown1994";
-const firstName = "Serzh";
-const lastName = "Tankian";
+const email = process.env.EMAIL ?? "";
+const password = process.env.PASSWORD ?? "";
+const firstName = process.env.FIRST_NAME ?? "";
+const lastName = process.env.LAST_NAME ?? "";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
