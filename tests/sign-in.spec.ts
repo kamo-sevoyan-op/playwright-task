@@ -12,8 +12,8 @@ test.beforeEach(async ({ page }) => {
   await button.click();
 });
 
-test.describe("User is able to sign in successfully", () => {
-  test("From homepage", async ({ page }) => {
+test.describe(() => {
+  test("Should allow user to sign in successfully with valid credentials.", async ({ page }) => {
     expect(page).toHaveTitle("Customer Login");
     const signInPage = new SignInPage(page);
     await signInPage.login(email, password);
