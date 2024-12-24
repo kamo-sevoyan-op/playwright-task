@@ -1,4 +1,5 @@
 import { test, expect, Page, Locator } from '@playwright/test';
+import { ProductPage } from './page/productPage';
 
 const NUM_PRODUCTS = 4;
 
@@ -41,8 +42,9 @@ async function testProduct(
   await link.click();
   await page.waitForLoadState('load');
 
-  const pageTitle = page.locator('.page-title .base');
-  await expect(pageTitle).toHaveText(productName as string);
+  const productPage = new ProductPage(page);
+  
+  await expect(productPage.title).toHaveText(productName as string);
   const path = toSnakeCase(productName as string);
   await expect(page).toHaveURL(`/${path}.html`);
   await expect(page).toHaveTitle(productName as string);
