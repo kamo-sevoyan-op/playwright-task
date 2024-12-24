@@ -1,4 +1,4 @@
-import { Locator, Page } from '@playwright/test';
+import { expect, Locator, Page } from '@playwright/test';
 
 export class HomePage {
   readonly page: Page;
@@ -18,8 +18,13 @@ export class HomePage {
     this.counterNumber = this.page.locator('.counter-number');
   }
 
-  async goto(cls: string, name: string) {
-    const button = this.page.locator(cls, { hasText: name });
+  async goto(name: string) {
+    const button = this.page
+      .getByRole('menuitem')
+      .getByText(name, { exact: true });
+
+    await expect(button).toHaveCount(1);
+
     await button.click();
     this.content = this.page.locator('.column.main');
   }
