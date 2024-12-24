@@ -1,12 +1,10 @@
-import { test, expect, Page } from '@playwright/test';
-import { SignInPage } from './page/sign-in';
+import { expect, Page, test } from '@playwright/test';
 import { PaymentPage, ShippingPage } from './page/checkout';
-import { addProductToCart } from './utils';
 import { OrderHistoryPage } from './page/orders';
+import { addProductToCart } from './utils';
 
 const {
   EMAIL,
-  PASSWORD,
   FIRST_NAME,
   LAST_NAME,
   STREET_ADDRESS,
