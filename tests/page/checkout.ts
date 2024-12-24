@@ -65,7 +65,6 @@ export class PaymentPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.placeOrderButton = this.page.getByText("Place Order");
-    
+    this.placeOrderButton = this.page.getByText('Place Order');
   }
 }
