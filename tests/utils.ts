@@ -21,4 +21,11 @@ async function addProductToCart(page: Page) {
   await expect(successMessage).toBeVisible();
 }
 
+export function toSnakeCase(productName: string) {
+  let parts = productName.trim().split(' ');
+  parts = parts.map((part) => part.toLowerCase());
+  const result = parts.join('-');
+  return result;
+}
+
 export default addProductToCart;

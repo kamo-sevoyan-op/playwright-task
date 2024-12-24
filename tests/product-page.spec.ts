@@ -1,18 +1,12 @@
 import { test, expect, Page, Locator } from '@playwright/test';
 import { ProductPage } from './page/productPage';
+import { toSnakeCase } from './utils';
 
 const NUM_PRODUCTS = 4;
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
 });
-
-function toSnakeCase(productName: string) {
-  let parts = productName.trim().split(' ');
-  parts = parts.map((part) => part.toLowerCase());
-  const result = parts.join('-');
-  return result;
-}
 
 function getProductByIndex(page: Page, index: number) {
   const productContainer = page.locator('.widget-product-grid');
