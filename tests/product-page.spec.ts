@@ -1,6 +1,7 @@
 import { test, expect, Page, Locator } from '@playwright/test';
 import { ProductPage } from './page/productPage';
 import { toSnakeCase } from './utils';
+import { HomePage } from './page/homepage';
 
 const NUM_PRODUCTS = 4;
 
@@ -8,23 +9,18 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/');
 });
 
-function getProductByIndex(page: Page, index: number) {
-  const productContainer = page.locator('.widget-product-grid');
-  const product = productContainer.locator('li').nth(index);
-  return product;
-}
-
 async function testProduct(
   page: Page,
   index: number,
   linkType: 'image' | 'anchor'
 ) {
-  const product = getProductByIndex(page, index);
-  const productLink = product.locator('.product-item-link');
-  const productName = await productLink.textContent();
-  const productImage = product.locator('.product-image-photo');
+  const homePage = new HomePage(page);
+  const { productLink, productName, productImage } =
+    await homePage.getProductByIndex(index);
 
   expect(productName).toBeTruthy();
+  await expect(productLink).toBeVisible();
+  await expect(productImage).toBeVisible();
 
   let link: Locator | null = null;
   if (linkType === 'image') {
@@ -37,7 +33,7 @@ async function testProduct(
   await page.waitForLoadState('load');
 
   const productPage = new ProductPage(page);
-  
+
   await expect(productPage.title).toHaveText(productName as string);
   const path = toSnakeCase(productName as string);
   await expect(page).toHaveURL(`/${path}.html`);

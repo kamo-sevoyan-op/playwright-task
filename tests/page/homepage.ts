@@ -24,4 +24,15 @@ export class HomePage {
     await this.searchField.fill(term);
     await this.searchButton.click();
   };
+
+  async getProductByIndex(index: number) {
+    const productContainer = this.page.locator('.widget-product-grid');
+    const product = productContainer.locator('li').nth(index);
+
+    const productLink = product.locator('.product-item-link');
+    const productName = await productLink.textContent();
+    const productImage = product.locator('.product-image-photo');
+
+    return {productLink, productName, productImage};
+  }
 }
