@@ -1,5 +1,6 @@
 import { test, expect, Page } from '@playwright/test';
 import addProductToCart from './utils';
+import {HomePage} from './page/homepage'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -8,12 +9,10 @@ test.beforeEach(async ({ page }) => {
 test.describe('Cart tests', () => {
   test('User can add a product to Cart', async ({ page }) => {
     await addProductToCart(page);
-
-    const counter = page.locator('.action.showcart .counter.qty');
-    expect(counter).toBeVisible();
-
-    const miniCart = page.locator('.counter-number');
-    await expect(miniCart).toHaveText('1');
+    
+    const homePage = new HomePage(page);
+    expect(homePage.counter).toBeVisible();
+    await expect(homePage.counterNumber).toHaveText('1');
   });
 
   test('Should show the item added to the cart', async ({ page }) => {
