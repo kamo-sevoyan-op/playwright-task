@@ -1,5 +1,7 @@
 import { test, expect, Page, Locator } from "@playwright/test";
 
+const NUM_PRODUCTS = 4;
+
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
 });
@@ -47,7 +49,7 @@ async function testProduct(
 }
 
 test.describe("Product page tests", () => {
-  for (let index = 0; index < 4; index++) {
+  for (let index = 0; index < NUM_PRODUCTS; index++) {
     test(`Should allow user to navigate to product page by product name, case ${index}`, async ({
       page,
     }) => {
@@ -55,7 +57,7 @@ test.describe("Product page tests", () => {
     });
   }
 
-  for (let index = 0; index < 4; index++) {
+  for (let index = 0; index < NUM_PRODUCTS; index++) {
     test(`Should allow user to navigate to product page by product image, case ${index}`, async ({
       page,
     }) => {
