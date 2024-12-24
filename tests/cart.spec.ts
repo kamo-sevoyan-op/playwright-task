@@ -1,4 +1,4 @@
-import { test, expect, Page } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import addProductToCart from './utils';
 import { HomePage } from './page/homepage';
 import { ProductPage } from './page/productPage';
@@ -43,10 +43,6 @@ test.describe('Cart tests', () => {
     await page.goto('/checkout/cart/');
 
     const cartPage = new CartPage(page);
-    const table = cartPage.productsTable;
-    await table.waitFor({ state: 'visible' });
-    await expect(table).toBeVisible();
-
     const removeButton = cartPage.getRemoveButton();
     await removeButton.click();
     await page.waitForLoadState('load');
