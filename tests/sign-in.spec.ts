@@ -1,25 +1,24 @@
-import { test, expect } from "@playwright/test";
-import { SignInPage } from "./page/sign-in";
+import { test, expect } from '@playwright/test';
+import { SignInPage } from './page/sign-in';
 
-const email = process.env.EMAIL ?? "";
-const password = process.env.PASSWORD ?? "";
-const firstName = process.env.FIRST_NAME ?? "";
-const lastName = process.env.LAST_NAME ?? "";
+const { EMAIL, PASSWORD, FIRST_NAME, LAST_NAME } = process.env;
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/");
-  const button = page.getByRole("link", { name: "Sign In" });
+  await page.goto('/');
+  const button = page.getByRole('link', { name: 'Sign In' });
   await button.click();
 });
 
 test.describe(() => {
-  test("Should allow user to sign in successfully with valid credentials.", async ({ page }) => {
-    expect(page).toHaveTitle("Customer Login");
+  test('Should allow user to sign in successfully with valid credentials.', async ({
+    page,
+  }) => {
+    expect(page).toHaveTitle('Customer Login');
     const signInPage = new SignInPage(page);
-    await signInPage.login(email, password);
+    await signInPage.login(EMAIL ?? '', PASSWORD ?? '');
 
     await expect(signInPage.greetingMessage).toHaveText(
-      `Welcome, ${firstName} ${lastName}!`
+      `Welcome, ${FIRST_NAME} ${LAST_NAME}!`
     );
   });
 });
