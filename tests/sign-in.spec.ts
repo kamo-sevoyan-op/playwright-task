@@ -20,6 +20,8 @@ test.describe(() => {
     await expect(signInPage.greetingMessage).toHaveText(
       `Welcome, ${FIRST_NAME} ${LAST_NAME}!`
     );
+
+    // Save logged in state for further tests.
     await page.context().storageState({ path: './auth.json' });
   });
 });

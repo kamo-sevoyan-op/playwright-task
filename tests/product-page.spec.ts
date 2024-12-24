@@ -18,6 +18,7 @@ async function testProduct(
   const { productLink, productName, productImage } =
     await homePage.getProductByIndex(index);
 
+  // Assertion for the product image and name to be visible
   expect(productName).toBeTruthy();
   await expect(productLink).toBeVisible();
   await expect(productImage).toBeVisible();
@@ -36,6 +37,8 @@ async function testProduct(
 
   await expect(productPage.title).toHaveText(productName as string);
   const path = toSnakeCase(productName as string);
+
+  // Check page title and url
   await expect(page).toHaveURL(`/${path}.html`);
   await expect(page).toHaveTitle(productName as string);
 }

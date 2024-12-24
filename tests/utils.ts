@@ -1,5 +1,4 @@
 import { expect, Page } from '@playwright/test';
-import { SignInPage } from './page/sign-in';
 
 export async function addProductToCart(page: Page) {
   const productContainer = page.locator('.widget-product-grid');
@@ -22,6 +21,11 @@ export async function addProductToCart(page: Page) {
   await expect(successMessage).toBeVisible();
 }
 
+/**
+ * Split the name by spaces and join by `-`.
+ * Example: `Red Hat` ==> `red-hat`
+ * @param productName
+ */
 export function toSnakeCase(productName: string) {
   let parts = productName.trim().split(' ');
   parts = parts.map((part) => part.toLowerCase());

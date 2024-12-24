@@ -61,6 +61,8 @@ test.describe('Checkout tests without auth', () => {
   });
 
   test.describe('Checkout tests with auth', () => {
+
+    // Use logged in state for tests in this group
     test.use({ storageState: './auth.json' });
 
     test('Order is visible in orders history page', async ({ page }) => {
@@ -86,9 +88,11 @@ test.describe('Checkout tests without auth', () => {
       const orderInfo = page.locator('.checkout-success p').first();
       await expect(orderInfo).toHaveText(/Your order number is/);
 
+      // Check for order number to be non empty
       const orderNumber = page.locator('.order-number');
       expect(orderNumber).toBeTruthy();
-
+      
+      // Check for order number value to contain only numbers
       const orderNumberValue = await orderNumber.textContent();
       expect(orderNumberValue).toMatch(/\d+/);
 
@@ -102,7 +106,8 @@ test.describe('Checkout tests without auth', () => {
       const items = orderHistoryPage.items;
       const count = await items.count();
       expect(count).toBeGreaterThanOrEqual(1);
-
+      
+      // Assert for order number and total price to be the same as in the previous page
       const { number, total } = orderHistoryPage.getLastItemInfo();
       await expect(number).toHaveText(orderNumberValue as string);
       await expect(total).toHaveText(price as string);

@@ -1,8 +1,10 @@
 import { test, expect } from '@playwright/test';
-import addProductToCart from './utils';
+import { addProductToCart } from './utils';
 import { HomePage } from './page/homepage';
 import { ProductPage } from './page/productPage';
 import { CartPage } from './page/cart';
+
+const CART_URL = '/checkout/cart/';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -23,7 +25,7 @@ test.describe('Cart tests', () => {
     const productPage = new ProductPage(page);
     const productName = await productPage.title.textContent();
 
-    await page.goto('/checkout/cart/');
+    await page.goto(CART_URL);
 
     const cartPage = new CartPage(page);
     const table = cartPage.productsTable;
@@ -40,7 +42,7 @@ test.describe('Cart tests', () => {
   test('User can empty the cart', async ({ page }) => {
     await addProductToCart(page);
 
-    await page.goto('/checkout/cart/');
+    await page.goto(CART_URL);
 
     const cartPage = new CartPage(page);
     const removeButton = cartPage.getRemoveButton();
