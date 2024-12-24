@@ -20,5 +20,6 @@ test.describe(() => {
     await expect(signInPage.greetingMessage).toHaveText(
       `Welcome, ${FIRST_NAME} ${LAST_NAME}!`
     );
+    await page.context().storageState({ path: './auth.json' });
   });
 });

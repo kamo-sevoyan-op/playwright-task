@@ -1,23 +1,24 @@
-import { expect, Page } from "@playwright/test";
+import { expect, Page } from '@playwright/test';
+import { SignInPage } from './page/sign-in';
 
-async function addProductToCart(page: Page) {
-  const productContainer = page.locator(".widget-product-grid");
-  const product = productContainer.locator("li").first();
-  const productLink = product.locator(".product-item-link");
+export async function addProductToCart(page: Page) {
+  const productContainer = page.locator('.widget-product-grid');
+  const product = productContainer.locator('li').first();
+  const productLink = product.locator('.product-item-link');
 
   await productLink.click();
 
-  const options = page.getByRole("listbox");
-  const sizeOption = options.first().getByRole("option").first();
-  const colorOption = options.last().getByRole("option").first();
+  const options = page.getByRole('listbox');
+  const sizeOption = options.first().getByRole('option').first();
+  const colorOption = options.last().getByRole('option').first();
 
   await sizeOption.click();
   await colorOption.click();
 
-  const button = page.getByTitle("Add to Cart");
+  const button = page.getByTitle('Add to Cart');
   await button.click();
 
-  const successMessage = page.locator(".message-success");
+  const successMessage = page.locator('.message-success');
   await expect(successMessage).toBeVisible();
 }
 
@@ -27,5 +28,3 @@ export function toSnakeCase(productName: string) {
   const result = parts.join('-');
   return result;
 }
-
-export default addProductToCart;
