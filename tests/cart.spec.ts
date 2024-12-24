@@ -1,7 +1,8 @@
 import { test, expect, Page } from '@playwright/test';
 import addProductToCart from './utils';
-import {HomePage} from './page/homepage'
+import { HomePage } from './page/homepage';
 import { ProductPage } from './page/productPage';
+import { CartPage } from './page/cart';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -24,15 +25,15 @@ test.describe('Cart tests', () => {
 
     await page.goto('/checkout/cart/');
 
-    const table = page.locator('#shopping-cart-table');
-    await table.waitFor({ state: 'visible' });
-    expect(table).toBeVisible();
+    const cartPage = new CartPage(page);
+    const table = cartPage.productsTable;
+    await expect(table).toBeVisible();
 
-    const content = table.locator('.cart.item');
+    const content = cartPage.tableContent;
     expect(content).toHaveCount(1);
 
     const addedItem = content.first();
-    const name = addedItem.locator('.product-item-name > a');
+    const name = addedItem.locator('.product-item-name');
     expect(name).toHaveText(productName as string);
   });
 
@@ -41,16 +42,16 @@ test.describe('Cart tests', () => {
 
     await page.goto('/checkout/cart/');
 
-    const table = page.locator('#shopping-cart-table');
+    const cartPage = new CartPage(page);
+    const table = cartPage.productsTable;
+    await table.waitFor({ state: 'visible' });
+    await expect(table).toBeVisible();
 
-    const content = table.locator('.cart.item');
-    const addedItem = content.first();
-
-    const removeButton = addedItem.getByTitle('Remove item');
+    const removeButton = cartPage.getRemoveButton();
     await removeButton.click();
-
     await page.waitForLoadState('load');
-    const message = page.locator('.cart-empty > p').first();
+
+    const message = page.locator('.cart-empty p').first();
 
     await expect(message).toBeVisible();
     await expect(message).toHaveText(
