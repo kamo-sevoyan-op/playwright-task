@@ -1,8 +1,8 @@
 import { expect, Page, test } from '@playwright/test';
+import fs from 'fs'
 import { PaymentPage, ShippingPage } from './page/checkout';
 import { OrderHistoryPage } from './page/orders';
 import { addProductToCart } from './utils';
-const fs = require('fs');
 
 const {
   EMAIL,
