@@ -8,7 +8,7 @@ export class OrderHistoryPage {
   constructor(page: Page) {
     this.page = page;
     this.history = this.page.locator('.orders-history');
-    this.items = this.page.locator('tbody > tr');
+    this.items = this.page.locator('tbody tr');
   }
 
   getLastItemInfo() {
