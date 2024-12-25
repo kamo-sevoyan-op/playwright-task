@@ -17,6 +17,10 @@ const {
 
 const ORDER_HISTORY_URL = 'sales/order/history/';
 const PAYMENT_SUCCESS_URL = '/checkout/onepage/success/';
+const CART_URL = '/checkout/cart/';
+const SHIPPING_URL = '/checkout/#shipping';
+
+const STORAGE_STATE_PATH = './auth.json';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -24,13 +28,13 @@ test.beforeEach(async ({ page }) => {
 
 async function testCheckout(page: Page) {
   await addProductToCart(page);
-  await page.goto('/checkout/cart/');
+  await page.goto(CART_URL);
 
   const checkoutButton = page.getByTitle('Proceed to Checkout').last();
   await expect(checkoutButton).toBeVisible();
 
   await checkoutButton.click();
-  await page.waitForURL('/checkout/#shipping');
+  await page.waitForURL(SHIPPING_URL);
 
   expect(page).toHaveTitle('Checkout');
 
@@ -95,7 +99,7 @@ test.describe('Checkout tests without auth', () => {
       // Check for order number to be non empty
       const orderNumber = page.locator('.order-number');
       expect(orderNumber).toBeTruthy();
-      
+
       // Check for order number value to contain only numbers
       const orderNumberValue = await orderNumber.textContent();
       expect(orderNumberValue).toMatch(/\d+/);
@@ -110,7 +114,7 @@ test.describe('Checkout tests without auth', () => {
       const items = orderHistoryPage.items;
       const count = await items.count();
       expect(count).toBeGreaterThanOrEqual(1);
-      
+
       // Assert for order number and total price to be the same as in the previous page
       const { number, total } = orderHistoryPage.getLastItemInfo();
       await expect(number).toHaveText(orderNumberValue as string);
