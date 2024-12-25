@@ -2,6 +2,7 @@ import { expect, Page, test } from '@playwright/test';
 import { PaymentPage, ShippingPage } from './page/checkout';
 import { OrderHistoryPage } from './page/orders';
 import { addProductToCart } from './utils';
+const fs = require('fs');
 
 const {
   EMAIL,
@@ -59,10 +60,15 @@ test.describe('Checkout tests without auth', () => {
   });
 
   test.describe('Checkout tests with auth', () => {
-
     // Use logged in state for tests in this group
-    test.use({ storageState: './auth.json' });
-
+    if (fs.existsSync(STORAGE_STATE_PATH)) {
+      test.use({ storageState: './auth.json' });
+    } else {
+      console.warn(
+        `The provided storage state file ${STORAGE_STATE_PATH} does not exist.`
+      );
+      test.skip();
+    }
     test('Order is visible in orders history page', async ({ page }) => {
       await testCheckout(page);
 
